@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+       
+        div{width: 100px;height: 100px;top:100px;background-color: red;margin: 50px;opacity: 0.3;filter: alpha(opacity = 30);}
+
+    </style>
+
+    <script>
+        window.onload = function(){
+            var odiv = document.getElementsByTagName('div');
+
+            
+
+            odiv[0].onclick = function(){
+                startMove(this,"width",300,function(){
+                    startMove(this,"height",300,function(){
+                        startMove(this,"opacity",100)
+                    })
+                });
+            }
+
+            odiv[1].onmouseover = function(){
+                startMove(this,"width",300,function(){
+                    startMove(this,"height",300,function(){
+                        startMove(this,"opacity",100)
+                    })
+                });
+            }
+            
+            odiv[1].onmouseout = function(){
+                startMove(this,"width",100,function(){
+                    startMove(this,"height",100,function(){
+                        startMove(this,"opacity",30)
+                    })
+                });
+            }
+
+            function getStyle(node,cssStr){
+                return node.currentStyle ? node.currentStyle[cssStr] :getComputedStyle(node)[cssStr];        
+            }
+
+            function startMove(node,attr,iTarget,next){
+                clearInterval(node.timer);
+                node.timer = setInterval(function(){
+
+                    var iCur = null;
+
+                    if(attr == "opacity"){
+                        iCur =  parseInt(parseFloat(getStyle(node,"opacity"))*100);
+                    }else{
+                        iCur = parseInt(getStyle(node,attr));
+                    }
+
+                    var speed = (iTarget - iCur) / 8;
+                    speed = speed > 0 ?  Math.ceil(speed) : Math.floor(speed);
+                    if(iCur == iTarget){
+                        clearInterval(node.timer);
+                        if(next){
+                            next.call(node);
+                        }                        
+                    }else{
+                        if(attr == 'opacity'){
+                            iCur += speed;
+                            node.style.opacity = iCur / 100;
+                            node.style.filter = "alpha(opacity =" + iCur + ")"
+                        }else{
+                            node.style[attr] = iCur + speed + "px";
+                        }
+                    }
+                },30)
+            }
+        }
+    </script>
+</head>
+<body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div>wenben</div>
+    <div></div>
+</body>
+</html>

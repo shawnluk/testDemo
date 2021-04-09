@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1{width: 600px;height: 600px;border: 1px black solid;margin: 100px auto;position: relative;}
+        #ball{width: 20px;height:20px ;border-radius: 50%;background-color: red;position: absolute;left: 240px;bottom: 20px;}
+        #div2{width: 100px;height: 20px; bottom: 0px;position: absolute;left: 200px;background-color: bisque;}
+        #brick div{width:98px;height: 18px;border: 1px black solid;float: left;}
+    </style>
+    <script>
+        window.onload = function(){
+            var odiv1 = document.getElementById('div1');
+            var oball = document.getElementById('ball');
+            var odiv2 = document.getElementById('div2');
+            var obrick = document.getElementById('brick');
+            var abrick = obrick.getElementsByTagName('div');
+
+
+            var speedX = parseInt(Math.random()*3) + 3;
+            var speedY = - (parseInt(Math.random()*4) + 6);
+
+            setInterval(function(){
+                oball.style.left = speedX + oball.offsetLeft + 'px'; 
+                oball.style.top  = speedY + oball.offsetTop + 'px';
+                if(oball.offsetLeft >= 580 || oball.offsetLeft <= 0){
+                    speedX *= -1;                    
+                }
+                if(oball.offsetTop <= 0){
+                    speedY *= -1;
+                }
+                if (konck(oball,odiv2)){
+                    speedY *= -1;
+                }
+                if(oball.offsetTop >= 580){ 
+                    alert(" GAME OVER!")
+                    location.reload();
+                }            
+                for(var i = 0; i < abrick.length; i++){
+                    if(konck(oball,abrick[i])){
+                        obrick.removeChild(abrick[i]);
+                        speedY *= -1;
+                    }   
+                }
+            },30) 
+
+            function randomColor(){
+                var str = "rgba(" + parseInt(Math.random() * 256) + "," + parseInt(Math.random() * 256) + "," + parseInt(Math.random() * 256) + ",1)";
+	            return str;
+            }
+
+            divMove(odiv2);
+            createBrick(60);
+            
+
+
+            function divMove(node){ 
+                node.onmousedown = function(ev){
+                    var e = ev || window.event;
+                    var offsetX = e.clientX -  node.offsetLeft;
+
+                    document.onmousemove = function(ev){
+                        var e = ev || window.event;
+                        l = e.clientX - offsetX;
+
+                        if(l <= 0){
+                            l = 0;
+                        }
+                        if(l >= 500){
+                            l = 500;
+                        }
+
+                        node.style.left = l + "px";
+                    }
+                }
+                document.onmouseup = function(){
+                    document.onmousemove = null;
+                }
+            }
+
+            function createBrick(n){
+                
+                var obrick = document.getElementById('brick');
+                for(var i = 0; i < n; i++){
+                    var node = document.createElement('div');
+                    node.style.backgroundColor = randomColor();
+                    obrick.appendChild(node);
+                }
+
+                var abrick = obrick.getElementsByTagName("div");
+				for(var i = 0; i < abrick.length; i++){
+					abrick[i].style.left = abrick[i].offsetLeft + 'px';
+					abrick[i].style.top = abrick[i].offsetTop + 'px';
+				}
+
+				//必须当前所有的div拥有坐标以后，才能将position = absolute
+				for(var i = 0; i < aBricks.length; i++){
+					aBricks[i].style.position = 'absolute';
+				}
+            }
+
+            function konck(node1,node2){
+                var l1 = node1.offsetLeft;
+                var r1 = node1.offsetLeft + node1.offsetWidth;
+                var t1 = node1.offsetTop;
+                var b1 = node1.offsetTop + node1.offsetHeight;
+
+                var l2 = node2.offsetLeft;
+                var r2 = node2.offsetLeft + node2.offsetWidth;
+                var t2 = node2.offsetTop;
+                var b2 = node2.offsetTop + node2.offsetHeight;
+
+                if (l1 >= r2 || r1 <= l2 || t1 >= b2 || b1 <= t2) { 
+                    return false;
+                }else{
+                    return true;
+                }
+            
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="div1">
+        <div id = 'ball'></div>
+        <div id="div2"></div>
+        <div id="brick"></div>
+    </div>
+</body>
+</html>

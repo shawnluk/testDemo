@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #div1{width: 100px;height: 100px;right: 0px;position: absolute;background-color: red;}
+        *{margin: 0px;padding: 0px;}
+    </style>
+    <script>
+
+        window.onload = function(){
+            var odiv = document.getElementById("div1");
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+            var iH = parseInt(scrollTop + (windowHeight - odiv.offsetHeight) / 2);
+
+            startMove(iH);
+
+            window.onscroll = function(){
+                var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+                var iH = parseInt(scrollTop + (windowHeight - odiv.offsetHeight) / 2);
+
+                startMove(iH);
+
+            }
+        }
+
+        var timer = null;
+            function startMove(iTarget){
+                var odiv = document.getElementById("div1");
+                clearInterval(timer);
+                timer = setInterval(function(){
+                    var speed = (iTarget - odiv.offsetTop) / 8;
+                    speed = speed >0 ? Math.ceil(speed) : Math.floor(speed);
+                    if(odiv.offsetTop == iTarget){
+                        clearInterval(timer);                        
+                    }else{
+                        odiv.style.top = odiv.offsetTop + speed + 'px';
+                    }
+
+                },30)
+            }
+    </script>
+</head>
+<body style = "height: 3000px;">
+    <div id = 'div1'></div>
+    
+</body>
+</html>

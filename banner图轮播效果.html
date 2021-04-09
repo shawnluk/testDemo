@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{margin: 0px;padding: 0px;}
+        #div1{width: 1000px;height: 250px;border: 1px black solid;position: relative;margin: 100px auto;overflow: hidden;}
+        #ul1 {list-style: none;position: absolute;}
+        #ul1 li{width: 230px;height: 230px;float: left;margin: 10px;}
+        #ul1 li img{width: 100%;height: 100%;}
+    </style>
+    <script src="startMove.js"></script>
+    <script>
+        window.onload = function(){
+            var oul = document.getElementById('ul1');
+
+            oul.innerHTML += oul.innerHTML;
+            oul.style.width = 250 * 8 + 'px';
+
+            setInterval(function(){
+                // oul.style.left = oul.offsetLeft - 5 + 'px';
+
+                startMove(oul,{left : oul.offsetLeft - 250},function(){
+                    if(oul.offsetLeft <= - oul.offsetWidth / 2){
+                        oul.style.left = '0px';
+                        alert(oul.offsetWidth);
+                    }
+                })
+            },2000);
+        }
+    </script>
+</head>
+<body>
+    <div id="div1">
+        <ul id="ul1">
+            <li><img src="img/1.jpg" alt=""></li>
+            <li><img src="img/2.jpg" alt=""></li>
+            <li><img src="img/3.jpg" alt=""></li>
+            <li><img src="img/4.jpg" alt=""></li>
+        </ul>
+    </div>
+</body>
+</html>

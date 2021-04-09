@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <script src="./ajax.js"></script>
+    <script>
+
+        window.onload = function(){
+            var obtn = document.getElementById('btn1');
+            var oinp = document.getElementsByTagName('input');
+
+            obtn.onclick = function(){
+                $ajax({
+                    method:"post",
+                    url:"insertstudents.php",
+                    data:{
+                        name:oinp[0].value,
+                        math:oinp[1].value,
+                        english:oinp[2].value,
+                        chinese:oinp[3].value
+                    },
+                    success:function(result){
+                        var obj = JSON.parse(result);
+                        alert(obj.message);
+                    },
+                    error:function(msg){
+                        alert(msg);
+                    }
+                })
+            }
+
+
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2>添加学生成绩</h2>
+            </div>
+        </div>
+        <div class="panel-body">
+            <form action="">
+                <div class="form-group">
+                    <label for="name">学生姓名</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="name">数学成绩</label>
+                    <input type="text" class="form-control" name="math">
+                </div><div class="form-group">
+                    <label for="name">英语成绩</label>
+                    <input type="text" class="form-control" name="english">
+                </div><div class="form-group">
+                    <label for="name">语文成绩</label>
+                    <input type="text" class="form-control" name="chinese">
+                </div>
+                <button id="btn1" type="button" class="btn btn-primary btn-block">提交学生成绩</button>
+            </form>
+        </div>
+        <a href="./phpconnectmysql.html">查看学生成绩</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{margin: 0px;padding: 0px;}
+        #div1{width: 100px;height: 100px;background-color: red;position: absolute;left:0px;top: 100px;}
+        #span1{width: 1px;height: 1000px;background-color: black;position: absolute;left: 500px;top:0px;}
+    </style>
+    <script>
+
+        window.onload = function(){
+            var obtn = document.getElementById("btn1");
+            var odiv = document.getElementById("div1");
+            var oinput = document.getElementById("input1");
+
+            obtn.onclick = function(){
+                if(oinput.value){
+                    alert(oinput.value)
+                }
+                startMove(oinput.value);
+            }
+
+            var timer =null;
+            function startMove(iTarget){
+                var odiv= document.getElementById("div1");
+
+                clearInterval(timer);
+
+                timer = setInterval(function(){
+                    var speed = (iTarget - odiv.offsetLeft) / 8;
+               
+
+                    speed = speed > 0 ? Math.ceil(speed):Math.floor(speed);
+
+                    if(odiv.offsetLeft == iTarget){
+                        clearInterval(timer);
+                    }else{
+                        odiv.style.left = odiv.offsetLeft + speed + 'px';
+                    }
+                },30);
+            }                  
+        }
+
+    </script>
+</head>
+<body>
+    <button id="btn1">开始运动</button>
+    <input id = "input1" type="number">
+    <div id="div1"></div>
+    <span id = "span1"></span>
+</body>
+</html>
