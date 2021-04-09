@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <style>
+        #reg{width: 400px; margin: 150px auto}
+        #alert_info{margin: 2px; padding: 2px;text-align: center; margin-bottom: 10px; display: none}
+    </style>
+    <script src="./ajax.js"></script>
+    <script>
+
+        window.onload = function(){
+            var obtn = document.getElementById('btn1');
+            var oinp = document.getElementsByTagName('input');
+            var oAlert = document.getElementById("alert_info");
+
+            obtn.onclick = function(){
+                $ajax({
+                    method:'post',
+                    url:"registerid.php",
+                    data:{
+                        name:oinp[0].value,
+                        password:oinp[1].value,
+                        addTime: new Date().getTime()
+                    },
+                    success:function(result){
+                        var  obj = JSON.parse(result);
+                        if(obj.code){
+                            oAlert.className = 'alert alert-danger';
+                        }else{
+                            oAlert.className = 'alert alert-success';
+                        }
+                        oAlert.style.display = 'block';
+                        oAlert.innerHTML = obj.message;
+                    },
+                    error:function(msg){
+                        alert(msg);
+                    }
+                })
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="panel panel-primary" id="reg">
+            <div class="panel-heading">
+                <h2>注册用户界面</h2>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="name">用户名</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="text" class="form-control" name="password">
+                </div>
+                <div id = 'alert_info' class = 'alert alert-danger'>xxxxx</div>
+                <a href="login.html">马上登录</a>
+                <button id="btn1" type="button" class="btn btn-primary pull-right">注册</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
